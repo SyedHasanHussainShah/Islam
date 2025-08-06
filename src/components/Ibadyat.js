@@ -244,7 +244,6 @@ const Ibadyat = () => {
     const now = new Date(currentTime);
     const prayerDate = new Date(now); // clone current date
 
-    // Assuming prayerTime is a string like "05:30"
     const [hours, minutes] = prayerTime.split(":").map(Number);
     prayerDate.setHours(hours, minutes, 0, 0); // Set prayer time on current day
 
@@ -304,7 +303,7 @@ const Ibadyat = () => {
               transition={{ duration: 0.6 }}
             >
               <h1 className="text-center mb-3" style={{ color: "#2c3e50" }}>
-                <FaPray className="me-3 font-bold" />
+                <FaPray className="me-3 font-bold" size={32} />
                 Islamic Worship Practices
               </h1>
               <p className="text-center text-muted mb-4">
@@ -328,7 +327,7 @@ const Ibadyat = () => {
                   style={{ backgroundColor: "#009900", color: "white" }}
                 >
                   <h3>
-                    <FaClock className="me-2" />
+                    <FaClock className="me-2" size={28} />
                     Prayer Times
                   </h3>
                   <div className="d-flex justify-content-center mt-3">
@@ -597,11 +596,7 @@ const Ibadyat = () => {
                     </h5>
                     <ul className="mb-4 ps-4">
                       {selectedTopic.content.rituals.map((ritual, index) => (
-                        <li
-                          key={index}
-                          className="mb-2"
-                          style={{ color: "#555" }}
-                        >
+                        <li key={index} className="mb-2" style={{ color: "#555" }}>
                           {ritual}
                         </li>
                       ))}
@@ -623,11 +618,7 @@ const Ibadyat = () => {
                     </h5>
                     <ul className="mb-4 ps-4">
                       {selectedTopic.content.types.map((type, index) => (
-                        <li
-                          key={index}
-                          className="mb-2"
-                          style={{ color: "#555" }}
-                        >
+                        <li key={index} className="mb-2" style={{ color: "#555" }}>
                           {type}
                         </li>
                       ))}

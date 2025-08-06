@@ -21,53 +21,56 @@ const Home = () => {
   const [showAiModal, setShowAiModal] = useState(false);
   const todayIndex = new Date().getDate() % quranVerse.length;
   const verse = quranVerse[todayIndex];
+useEffect(() => {
+  const updateDateTime = () => {
+    const now = new Date();
+    setCurrentTime(now);
 
-  useEffect(() => {
-    const fetchPrayerData = async () => {
-      try {
-        const times = await getPrayerTimes(new Date(), currentCity);
-        setPrayerTimes(times);
-        setCurrentPrayerInfo(getCurrentPrayer(times));
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching prayer times:', error);
-        setLoading(false);
-        showNotification('Failed to fetch prayer times. Using fallback times.', 'warning');
-      }
-    };
+    // Precise Hijri date using Intl.DateTimeFormat
+    const adjustedDate = new Date(now);
+    adjustedDate.setDate(adjustedDate.getDate() - 1); // Remove if no offset needed
 
-    fetchPrayerData();
+    const formatter = new Intl.DateTimeFormat('en-TN-u-ca-islamic', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
 
-    // Update current prayer info and time every minute
-    const interval = setInterval(() => {
-      if (prayerTimes) {
-        setCurrentPrayerInfo(getCurrentPrayer(prayerTimes));
-      }
-      setCurrentTime(new Date());
-    }, 60000);
+    const hijriDate = formatter.format(adjustedDate);
+    setIslamicDate(`${hijriDate}`);
+  };
 
-    // Update time every second for clock
-    const timeInterval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
+  // Fetch prayer times once and initialize state
+  const fetchPrayerData = async () => {
+    try {
+      const times = await getPrayerTimes(new Date(), currentCity);
+      setPrayerTimes(times);
+      setCurrentPrayerInfo(getCurrentPrayer(times));
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      showNotification('Failed to fetch prayer times. Using fallback.', 'warning');
+    }
+  };
+  fetchPrayerData();
 
-    // Set Islamic date (simplified - you might want to use a proper Islamic calendar library)
-    const islamicMonths = [
-      'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
-      'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Sha\'ban',
-      'Ramadan', 'Shawwal', 'Dhu al-Qi\'dah', 'Dhu al-Hijjah'
-    ];
-    const currentDate = new Date();
-    const islamicYear = 1445; // This should be calculated properly
-    const islamicMonth = islamicMonths[currentDate.getMonth()];
-    const islamicDay = currentDate.getDate();
-    setIslamicDate(`${islamicDay} ${islamicMonth} ${islamicYear} AH`);
+  updateDateTime(); // Set display immediately
 
-    return () => {
-      clearInterval(interval);
-      clearInterval(timeInterval);
-    };
-  }, [currentCity]);
+  const prayerInfoInterval = setInterval(() => {
+    if (prayerTimes) {
+      setCurrentPrayerInfo(getCurrentPrayer(prayerTimes));
+    }
+  }, 60000);
+
+  const timeInterval = setInterval(updateDateTime, 1000);
+
+  return () => {
+    clearInterval(prayerInfoInterval);
+    clearInterval(timeInterval);
+  };
+}, [currentCity]);
+
 
   const showNotification = (message, type = 'info') => {
     const id = Date.now();

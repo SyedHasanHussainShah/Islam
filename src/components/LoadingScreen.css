@@ -16,8 +16,8 @@
 /* Mosque Icon */
 .mosque-icon-inner {
   font-size: 70px;
-  color: #facc15;
-  filter: drop-shadow(0 0 15px rgba(234, 179, 8, 0.8));
+  color: #39ff14;
+  filter: drop-shadow(0 0 15px rgba(5, 87, 8, 0.8));
   margin-bottom: 1rem;
 }
 
@@ -29,7 +29,7 @@
   letter-spacing: 1px;
 }
 .app-title .highlight {
-  color: #facc15;
+  color: #f4f3ee;
 }
 
 /* Quran Verse */
@@ -49,14 +49,14 @@
 .progress-bar-container {
   width: 280px;
   height: 10px;
-  background-color: rgb(57,255,20);
+  background-color: #049207;
   border-radius: 9999px;
   overflow: hidden;
   margin-bottom: 1rem;
 }
 .progress-bar-fill {
   height: 100%;
-  background-color: #facc15;
+  background-color: rgb(57,255,20);
   border-radius: 9999px;
   transition: width 0.2s linear;
 }
@@ -64,7 +64,7 @@
 /* Quran icon rotation */
 .quran-icon {
   font-size: 22px;
-  color: #facc15;
+  color: #eac120;
   margin-bottom: 10px;
 }
 

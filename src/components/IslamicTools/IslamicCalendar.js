@@ -20,12 +20,17 @@ const IslamicCalendar = () => {
   ];
 
   const getIslamicDate = () => {
-    // Simplified Islamic date calculation
-    const islamicYear = 1445; // This should be calculated properly
-    const islamicMonth = islamicMonths[currentDate.getMonth()];
-    const islamicDay = currentDate.getDate();
-    return `${islamicDay} ${islamicMonth} ${islamicYear} AH`;
-  };
+  const adjustedDate = new Date(currentDate);
+  adjustedDate.setDate(adjustedDate.getDate() - 1); // Adjust for known offset
+
+  const islamicFormatter = new Intl.DateTimeFormat('en-TN-u-ca-islamic', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
+  return islamicFormatter.format(adjustedDate);
+};
 
   return (
     <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
@@ -55,7 +60,7 @@ const IslamicCalendar = () => {
             >
               <Card className="calendar-card">
                 <Card.Body className="text-center">
-                  <h4><FaSun className="me-2" />Gregorian Date</h4>
+                  <h4><FaCalendarAlt className="me-2" />Gregorian Date</h4>
                   <h2 className="current-date">{currentDate.toDateString()}</h2>
                   <p className="text-muted">{gregorianMonths[currentDate.getMonth()]} {currentDate.getFullYear()}</p>
                 </Card.Body>
@@ -70,7 +75,7 @@ const IslamicCalendar = () => {
             >
               <Card className="calendar-card">
                 <Card.Body className="text-center">
-                  <h4><FaMoon className="me-2" />Islamic Date</h4>
+                  <h4><FaCalendarAlt className="me-2" />Islamic Date</h4>
                   <h2 className="islamic-date">{getIslamicDate()}</h2>
                   <p className="text-muted">Hijri Calendar</p>
                 </Card.Body>

@@ -1,20 +1,101 @@
 import React, { useState } from "react";
-import { Navbar as BootstrapNavbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import {
-  FaHome,
-  FaPray,
-  FaQuran,
-  FaMosque,
-  FaHands,
-  FaCompass,
-  FaCalendarAlt,
-  FaStar,
-  FaHeart,
-  FaUser,
-} from "react-icons/fa";
+  Home as HomeIcon,
+  Nightlight as NightlightIcon,
+  Book as BookIcon,
+  Handshake as HandshakeIcon,
+  CalendarToday as CalendarTodayIcon,
+  LocationOn as LocationOnIcon,
+  Favorite as FavoriteIcon,
+  Mosque as MosqueIcon,
+} from "@mui/icons-material"; // Use Material-UI Icons
+import styled, { css, keyframes } from "styled-components";
+import {
+  FaPray
+} from 'react-icons/fa';
 
-const Navbar = ({ theme, userProfile }) => {
+
+const slideDown = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const flashColor = keyframes`
+  0% {
+    background-color: #009900;
+  }
+  50% {
+    background-color: #03c03c;
+  }
+  100% {
+    background-color: #009900;
+  }
+`;
+
+const CustomNavbar = styled(Navbar)`
+  background-color: #0c8d0cff;
+  padding: 20px 20px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
+  animation: ${slideDown} 0.5s ease, ${flashColor} 5s ease-in-out infinite;
+`;
+
+const Brand = styled(Navbar.Brand)`
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 26px;
+  color: #fff;
+  text-decoration: none;
+  margin-right: 80px;
+  animation: ${slideDown} 0.5s ease 0.1s forwards;
+  opacity: 0;
+
+  &:hover {
+    color: #fff;
+  }
+`;
+
+const NavLink = styled(Nav.Link)`
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 0 8px;
+  color: #f0ededff;
+  font-size: 16px;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  animation: ${slideDown} 0.5s ease 0.2s forwards;
+  opacity: 0;
+
+  &:hover {
+    background-color: black;
+    color: #fff;
+  }
+
+  ${({ active }) =>
+    active &&
+    css`
+      background-color: #1f1f1f98;
+      color: #fff;
+    `}
+`;
+
+const IconStyle = {
+  fontSize: 24, // Adjust icon size
+  color: "#0bf641ff",
+  marginRight: 8, // Adjust margin
+};
+
+const AppNavbar = ({ userProfile }) => {
   const location = useLocation();
   const [expanded, setExpanded] = useState(false);
 
@@ -25,115 +106,96 @@ const Navbar = ({ theme, userProfile }) => {
   };
 
   return (
-    <BootstrapNavbar
-      expand="lg"
-      className="custom-navbar"
-      fixed="top"
-      expanded={expanded}
-      onToggle={setExpanded}
-    >
+    <CustomNavbar expand="lg" fixed="top" expanded={expanded} onToggle={setExpanded}>
       <Container>
-        <BootstrapNavbar.Brand
-          as={Link}
-          to="/"
-          className="d-flex align-items-center"
-          onClick={handleNavClick}
-        >
-          <FaMosque className="me-2" />
+        <Brand as={Link} to="/" onClick={handleNavClick}>
+          <MosqueIcon style={IconStyle} />
           Islam360
-        </BootstrapNavbar.Brand>
+        </Brand>
 
         {/* Profile picture in the header (visible when navbar is collapsed) */}
         {userProfile.profilePicture && (
-          <div className="d-lg-none ms-auto me-3">
+          <div className="d-lg-none ms-auto">
             <img
               src={userProfile.profilePicture}
               alt="Profile"
-              className="profile-pic-sm"
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 16,
+              }}
             />
           </div>
         )}
 
-        <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
-        <BootstrapNavbar.Collapse id="basic-navbar-nav">
-          <Nav className="w-100">
-            <Nav.Link
+        <Navbar.Collapse id="basic-navbar-nav gap-10">
+          <Nav className="w-100 gap-10">
+            <NavLink
               as={Link}
               to="/"
-              className={isActive("/") ? "active" : ""}
+              active={isActive("/")}
               onClick={handleNavClick}
             >
-              <FaHome className="me-1" />
+              <HomeIcon style={IconStyle} />
               Home
-            </Nav.Link>
-            <Nav.Link
+            </NavLink>
+            <NavLink
               as={Link}
               to="/ibadyat"
-              className={isActive("/ibadyat") ? "active" : ""}
+              active={isActive("/ibadyat")}
               onClick={handleNavClick}
             >
-              <FaPray className="me-1" />
+              <FaPray style={IconStyle} />
               Ibadyat
-            </Nav.Link>
-            <Nav.Link
+            </NavLink>
+            <NavLink
               as={Link}
               to="/quran"
-              className={isActive("/quran") ? "active" : ""}
+              active={isActive("/quran")}
               onClick={handleNavClick}
             >
-              <FaQuran className="me-1" />
+              <BookIcon style={IconStyle} />
               Quran
-            </Nav.Link>
-            <Nav.Link
+            </NavLink>
+            <NavLink
               as={Link}
               to="/dua"
-              className={isActive("/dua") ? "active" : ""}
+              active={isActive("/dua")}
               onClick={handleNavClick}
             >
-              <FaHands className="me-1" />
+              <HandshakeIcon style={IconStyle} />
               Duas
-            </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/tasbih"
-              className={isActive("/tasbih") ? "active" : ""}
-              onClick={handleNavClick}
-            >
-              <FaStar className="me-1" />
-              Tasbih
-            </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/qibla"
-              className={isActive("/qibla") ? "active" : ""}
-              onClick={handleNavClick}
-            >
-              <FaCompass className="me-1" />
-              Qibla
-            </Nav.Link>
-            <Nav.Link
+            </NavLink>
+            <NavLink
               as={Link}
               to="/calendar"
-              className={isActive("/calendar") ? "active" : ""}
+              active={isActive("/calendar")}
               onClick={handleNavClick}
             >
-              <FaCalendarAlt className="me-1" />
+              <CalendarTodayIcon style={IconStyle} />
               Calendar
-            </Nav.Link>
-            <Nav.Link
+            </NavLink>
+            <NavLink
+              as={Link}
+              to="/qibla"
+              active={isActive("/qibla")}
+              onClick={handleNavClick}
+            >
+              <LocationOnIcon style={IconStyle} />
+              Qibla
+            </NavLink>
+            <NavLink
               as={Link}
               to="/names"
-              className={isActive("/names") ? "active" : ""}
               onClick={handleNavClick}
             >
-              <FaHeart className="me-1" />
+              <FavoriteIcon style={IconStyle} />
               Names
-            </Nav.Link>
-            
-
+            </NavLink>
           </Nav>
-        </BootstrapNavbar.Collapse>
+        </Navbar.Collapse>
 
         {/* Profile picture (visible on desktop only) */}
         <div className="d-none d-lg-block ms-3">
@@ -141,15 +203,19 @@ const Navbar = ({ theme, userProfile }) => {
             <img
               src={userProfile.profilePicture}
               alt="Profile"
-              className="profile-pic"
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 20,
+              }}
             />
           ) : (
-            <FaUser />
+            <HomeIcon style={{ ...IconStyle, color: "#fff" }} />
           )}
         </div>
       </Container>
-    </BootstrapNavbar>
+    </CustomNavbar>
   );
 };
 
-export default Navbar;
+export default AppNavbar;

@@ -141,7 +141,7 @@ const NamesOfAllah = () => {
               transition={{ duration: 0.6 }}
             >
               <h1 className="text-center mb-4">
-                <FaStar className="me-3" />
+                <FaHeart className="me-3" />
                 99 Names of Allah
               </h1>
               <p className="text-center mb-5">The beautiful names and attributes of Allah (SWT)</p>
