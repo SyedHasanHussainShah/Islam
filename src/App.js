@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import { inject } from '@vercel/analytics';
-
 
 // Import components
 import Navbar from './components/Navbar';
@@ -39,8 +37,6 @@ function App() {
     localStorage.setItem('userProfile', JSON.stringify(newProfile));
   };
 
-  inject();
-  
   return (
     <Router>
       <AnimatePresence>
