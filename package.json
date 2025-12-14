@@ -17,7 +17,7 @@
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.536.0",
     "node-fetch": "^3.3.2",
-    "openai": "^5.11.0",
+    "openai": "^5.23.2",
     "react": "^19.1.1",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.1",
