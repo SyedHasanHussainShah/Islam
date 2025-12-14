@@ -15,7 +15,7 @@
     "axios": "^1.11.0",
     "bootstrap": "^5.3.7",
     "framer-motion": "^12.23.12",
-    "lucide-react": "^0.536.0",
+    "lucide-react": "^0.554.0",
     "node-fetch": "^3.3.2",
     "openai": "^5.11.0",
     "react": "^19.1.1",
